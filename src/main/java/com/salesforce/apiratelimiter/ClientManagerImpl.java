@@ -3,6 +3,9 @@ package com.salesforce.apiratelimiter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for keeping the mapping of client and license type.
+ */
 public class ClientManagerImpl implements ClientManager {
 
 	private Map<String, LicenseType> namespaceLicenseMapping = new HashMap<String, LicenseType>();

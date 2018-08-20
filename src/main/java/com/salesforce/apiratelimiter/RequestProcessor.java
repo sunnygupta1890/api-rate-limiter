@@ -2,6 +2,10 @@ package com.salesforce.apiratelimiter;
 
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * This class will be responsible for getting the requests from queue and doing
+ * the request processing.
+ */
 public class RequestProcessor {
 
 	private BlockingQueue<Request> requestQueue;

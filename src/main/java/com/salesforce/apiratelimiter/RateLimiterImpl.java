@@ -2,13 +2,19 @@ package com.salesforce.apiratelimiter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * implementation of Ratelimiter - Sliding window rate limiter
+ */
 public class RateLimiterImpl implements RateLimiter {
 
+	// This Outer Map i.e. clientRequestCountMap will have clientId as key and a Map
+	// as value.
+	// The internal map will have timeOfArrival as key and request count as value.
+	// we can have multiple request at the same timeOfArrival.
 	private Map<String, SortedMap<Long, Integer>> clientRequestCountMap = new HashMap<String, SortedMap<Long, Integer>>();
 
 	private SortedMap<Long, Integer> globalRequestCountMap = new TreeMap<Long, Integer>();
@@ -35,8 +41,9 @@ public class RateLimiterImpl implements RateLimiter {
 			long timeOfArrival = request.getTimeOfArrival();
 			long windowSize = timeOfArrival - timeUnit.toMillis(1);
 			SortedMap<Long, Integer> tailMap = requestCountMap.tailMap(windowSize);
-
-			// if the request in the current sliding window are more than the license limit.
+			// if the request in the current sliding window are greater than or equal to the
+			// license limit.
+			// this means rate limit exceed. Return false from here.
 			if (totalRequestCountInWindow(tailMap) >= licenseType.getNumOfRequests()) {
 				return false;
 			}

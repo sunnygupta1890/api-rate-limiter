@@ -2,6 +2,9 @@ package com.salesforce.apiratelimiter;
 
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * FrontController class to add requests into queue.
+ */
 public class FrontController {
 
 	private BlockingQueue<Request> requestQueue;
